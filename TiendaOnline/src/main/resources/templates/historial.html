@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Online - Historial de Compras</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace a Bootstrap JS Bundle (incluye Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Enlace a tu archivo CSS compilado -->
+    <link rel="stylesheet" href="/css/estilos.css">
+    <!-- Enlace a la fuente Ubuntu -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu" />
+</head>
+<body>
+	<!-- Incluir el Fragmento de la Navbar -->
+	<div th:replace="fragments/navbar :: navbar"></div>
+	<!-- Incluir el Fragmento de la Login -->
+	<div th:replace="fragments/login :: login-modal"></div>
+    <!-- Modal del Carrito de Compras -->
+	<!-- Incluir el Fragmento de carrito -->
+	<div th:replace ="fragments/carrito :: carrito-modal"></div>
+    <!-- Contenido Principal: Historial de Compras -->
+	<div class="container mt-5 pt-5" id="alertContainer"></div>
+	
+    <div class="container mt-5">
+        <h2 class="mb-4 text-content fw-bold text-dark">Historial de Compras</h2>
+
+        <!-- Si el usuario no está autenticado, mostrar mensaje -->
+        <div th:if="${usuarioAutenticado == null}">
+            <div class="alert alert-warning" role="alert">
+                Debes iniciar sesión para ver sus compras.
+            </div>
+        </div>
+
+        <!-- Si el usuario está autenticado y tiene órdenes -->
+        <div th:if="${usuarioAutenticado != null}">
+            <table class="table table-striped" th:if="${ordenes != null and !ordenes.isEmpty()}">
+                <thead>
+                    <tr>
+                        <th class="text-dark fs-5">Fecha</th>
+                        <th class="text-dark fs-5">Total</th>
+                        <th class="text-dark fs-5">Estado</th>
+                        <th class="text-dark fs-5">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="orden : ${ordenes}">
+                        <td th:text="${#temporals.format(orden.fechaOrden, 'dd/MM/yyyy HH:mm')}">Fecha</td>
+                        <td th:text="'₡ ' + ${orden.total}">Total</td>
+                        <td th:text="${orden.estado}">Estado</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm"
+                                    data-bs-toggle="modal"
+                                    th:data-bs-target="'#modalDetalleOrden' + ${orden.ordenId}">
+                                Ver
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- Si el usuario está autenticado pero no tiene órdenes -->
+            <div class="alert alert-info mt-3" th:if="${ordenes == null or ordenes.isEmpty()}">
+                No tienes compras registradas.
+            </div>
+        </div>
+    </div>
+
+    <!-- Modales de detalles de las órdenes -->
+    <div th:each="orden : ${ordenes}">
+        <div class="modal fade" th:id="'modalDetalleOrden' + ${orden.ordenId}" tabindex="-1" aria-labelledby="modalDetalleLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-secondary text-light">
+                        <h5 class="modal-title" th:text="'Detalle de la Orden #' + ${orden.ordenId}" id="modalDetalleLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-dark"><strong>Fecha:</strong> <span th:text="${#temporals.format(orden.fechaOrden, 'dd/MM/yyyy HH:mm')}"></span></p>
+                        <p class="text-dark"><strong>Estado:</strong> <span th:text="${orden.estado}"></span></p>
+                        
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-dark">Producto</th>
+                                    <th class="text-dark">Cantidad</th>
+                                    <th class="text-dark">Precio Unitario</th>
+                                    <th class="text-dark">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="detalle : ${orden.detalles}">
+                                    <td class="text-secondary fw-normal" th:text="${detalle.producto.nombre}"></td>
+                                    <td class="text-secondary fw-normal" th:text="${detalle.cantidad}"></td>
+                                    <td class="text-secondary fw-normal" th:text="|₡ ${detalle.precioUnitario}|"></td>
+                                    <td class="text-secondary fw-normal" th:text="|₡ ${detalle.precioUnitario.multiply(T(java.math.BigDecimal).valueOf(detalle.cantidad + 0L))}|"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+						<p class="text-dark text-end"><strong>Total:</strong> ₡ <span class="fw-bold" th:text="${orden.total}"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary text-info" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de Página -->
+    <footer class="bg-secondary mt-5">
+        <p class="text-break text-center text-light pt-4 mb-0 fw-bold fs-5 text-uppercase">
+            Farmacia Cruz Verde © Todos los derechos reservados
+        </p>
+    </footer>
+
+    <!-- Scripts JavaScript -->
+	<!-- Variables globales para carrito.js -->
+	<script th:inline="javascript">
+	    /*<![CDATA[*/
+	    window.usuarioAutenticado = /*[[${usuarioAutenticado != null}]]*/ false;
+	    window.correoUsuario = /*[[${correoUsuario}]]*/ 'correo@example.com';
+	    /*]]>*/
+	</script>
+
+	<!-- Incluir el archivo carrito.js -->
+	<script src="/js/carrito.js"></script>
+</body>
+</html>
+

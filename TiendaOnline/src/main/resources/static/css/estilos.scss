@@ -1,0 +1,108 @@
+// Definición de variables de colores personalizados
+$primary: rgb(11, 67, 199);
+$secondary: #668B00;
+$dark: #41540c;
+$warning: rgb(139, 0, 0);
+$info:#ffff;
+
+// Importación de Bootstrap SCSS
+@import "./node_modules/bootstrap/scss/bootstrap.scss";
+
+// Estilos para el logo
+.estilo-logo {
+    width: 10vh;
+    height: 13vh;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+}
+
+// Estilos para las imágenes de login
+.img-login {
+    width: 7vh;
+    height: 10vh;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+}
+
+// Estilos para el texto de contenido
+.text-content {
+    font-family: 'Ubuntu', sans-serif;
+}
+.text-fichaN{
+    font-family: 'Ubuntu', sans-serif;
+    letter-spacing: 1px;
+    font-size: 15px;
+    font-style:normal;
+    font-variant:normal;
+    font-weight: 200;
+    margin-left: 2%;
+}
+
+.text-vision-mision {
+    font-family: 'Lobster', sans-serif;
+    letter-spacing: 2px;
+    color: #ffff;
+    font-size: 32px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 100;
+    line-height: 33px;
+}
+.btn-carrito-personalizado {
+    background-color: white !important; /* Fondo blanco */
+    border: 1px solid #ced4da; /* Borde gris claro */
+    color: $dark; /* Color del texto */
+    padding: 0.5rem 1rem; /* Espaciado interno */
+    border-radius: 0.25rem; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de puntero */
+    box-shadow: none; /* Sin sombra */
+    transition: background-color 0.3s ease; /* Transición suave para el hover */
+}
+
+.btn-carrito-personalizado:hover {
+    background-color: #f8f9fa !important; /* Fondo ligeramente gris al pasar el cursor */
+}
+
+// Estilos para los botones de eliminación ("x") en el carrito
+.btn-eliminar {
+    background-color: transparent;
+    border: none;
+    color: #dc3545; /* Rojo Bootstrap para indicar peligro */
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.btn-eliminar:hover {
+    color: #a71d2a; /* Rojo más oscuro al pasar el cursor */
+}
+
+// Compensación para el Fixed Navbar
+body {
+    padding-top: 80px; // Ajusta este valor según la altura de tu navbar
+}
+
+// Estilos para el contenedor de alertas
+#alertContainer {
+    position: fixed;
+    top: 100px; // Justo debajo de la navbar fija
+    width: 100%;
+    z-index: 1050; // Asegura que esté por encima de otros elementos
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; // Permite interactuar con elementos debajo
+}
+
+.alert {
+    width: 50%; // Ajusta el ancho según tus necesidades
+    pointer-events: all; // Permite interactuar con la alerta
+}
+
+.product-image {
+    height: 200px; /* Altura fija para las imágenes */
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho del contenedor */
+    object-fit: cover; /* Cubre el contenedor sin distorsión */
+}

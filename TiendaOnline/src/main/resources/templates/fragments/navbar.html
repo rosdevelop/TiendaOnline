@@ -1,0 +1,96 @@
+<!-- src/main/resources/templates/fragments/navbar.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- Enlace a Bootstrap CSS -->
+	   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	   <!-- Enlace a Bootstrap JS Bundle (incluye Popper) -->
+	   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+	   <!-- Enlace a tu archivo CSS -->
+	   <link rel="stylesheet" href="/css/estilos.css">
+	   <!-- Fuente Ubuntu -->
+	   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu" />
+    <title>Navbar Fragment</title>
+</head>
+<body>
+    <div th:fragment="navbar">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top mt-0">
+            <div class="container-fluid">
+                <!-- Logo de la Marca -->
+                <a class="navbar-brand pt-0 pb-0" th:href="@{/}">
+                    <img class="estilo-logo" th:src="@{/img/farmacia.png}" alt="Logo">
+                </a>
+                <!-- Botón Toggler para Mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- Contenido de la Barra de Navegación -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Enlaces de Navegación -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase fs-3 fw-bold"
+                               th:href="@{/}"
+                               th:classappend="${currentPage == 'inicio'} ? ' text-dark' : ' text-secondary'">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase fs-3 fw-bold"
+                               th:href="@{/historial}"
+                               th:classappend="${currentPage == 'compras'} ? ' text-dark' : ' text-secondary'">Compras</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase fs-3 fw-bold"
+                               th:href="@{/contacto}"
+                               th:classappend="${currentPage == 'contacto'} ? ' text-dark' : ' text-secondary'">Contácto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase fs-3 fw-bold"
+                               th:href="@{/nosotros}"
+                               th:classappend="${currentPage == 'nosotros'} ? ' text-dark' : ' text-secondary'">Nosotros</a>
+                        </li>
+                    </ul>
+
+                    <!-- Sección de Usuario y Carrito -->
+                    <div class="d-flex align-items-center ms-4">
+                        <!-- Mostrar dependiendo del estado de autenticación -->
+                        <div th:if="${usuarioAutenticado != null}" class="d-flex align-items-center">
+                            <!-- Saludo de Bienvenida -->
+                            <span class="me-3 text-uppercase text-dark fw-bold">
+                                Bienvenido,<br>
+                                <span th:text="${usuarioAutenticado}"></span>
+                            </span>
+                            
+                            <!-- Botón del Carrito -->
+                            <div class="ms-3">
+                                <button class="btn position-relative btn-carrito-personalizado" data-bs-toggle="modal" data-bs-target="#modalCarrito">
+                                    <img src="/img/carrito.png" alt="Carrito" style="width: 40px; height: 40px;">
+                                    <span id="carritoContador" class="position-absolute top-0 start-100 translate-middle badge bg-danger">0</span>
+                                </button>
+                            </div>
+
+                            <!-- Botón de Cerrar Sesión -->
+                            <form th:action="@{/logout}" method="post" class="ms-3">
+                                <button type="submit" class="btn">
+                                    <img th:src="@{/img/cerrar.png}" class="img-fluid img-login" alt="Cerrar Sesión">
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Si no está autenticado, muestra la imagen de inicio de sesión -->
+                        <div th:if="${usuarioAutenticado == null}" class="d-flex align-items-center">
+                            <div class="me-3">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    <img th:src="@{/img/acceso.png}" class="img-fluid img-login" alt="Acceso" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</body>
+</html>
+
+
