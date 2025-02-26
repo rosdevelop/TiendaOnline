@@ -58,3 +58,65 @@ docker-compose.override.yml
 # Archivos de configuración de Spring Boot generados dinámicamente
 *.h2.db
 *.mv.db
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Dependencias de Maven
+target/
+mvnw
+mvnw.cmd
+.mvn/
+
+# Configuración de credenciales sensibles
+src/main/resources/application.properties
+src/main/resources/application.yml
+
+# Configuración específica de IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.log
+
+# Archivos de compilación y caché
+bin/
+out/
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Archivos generados de IntelliJ y Eclipse
+.classpath
+.project
+.settings/
+
+# Logs y archivos temporales
+*.log
+logs/
+hs_err_pid*
+*.swp
+
+# Archivos de base de datos locales
+*.db
+*.sql
+dump.rdb
+
+# Archivos de exportación de sistema
+*.tar.gz
+*.zip
+*.rar
+
+# Archivos de entorno (en caso de Docker o configuración local)
+.env
+docker-compose.override.yml
+
+# Archivos PDF generados en el sistema (si los guardas en el proyecto)
+*.pdf
+
+# Archivos de configuración de Spring Boot generados dinámicamente
+*.h2.db
+*.mv.db
+
